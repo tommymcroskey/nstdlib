@@ -29,7 +29,7 @@ void pop() {
 void top() const { return data[top_]; }
 bool empty() const { return top_ == 0; }
 bool full() const { return top_ == N; }
-size_t size() const { return top_ - 1; }
+size_t size() const { return top_; }
 
 private:
 
