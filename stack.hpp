@@ -26,7 +26,13 @@ void pop() {
 	top_--;
 }
 
-void top() const { return data[top_]; }
+T top() const {
+	if (empty()) {
+		throw std::logic_error("stack is empty");
+	}
+	return data[top_];
+}
+
 bool empty() const { return top_ == 0; }
 bool full() const { return top_ == N; }
 size_t size() const { return top_; }
