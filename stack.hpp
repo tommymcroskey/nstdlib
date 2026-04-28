@@ -1,12 +1,40 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-template <typename T, std::size_t N>
+#include <cstddef>
+#include <stdexcept>
+
+template <typename T, size_t N>
 class Stack {
 
 public:
 
+Stack() : top_(0) {} 
+~Stack() = default;
+
+void push(T& e) {
+	if (full()) {
+		throw std::overflow_error("stack is full");
+	}
+	data[top_++] = e;
+}
+
+void pop() {
+	if (empty()) {
+		throw std::underflow_error("stack is empty");
+	}
+	top_--;
+}
+
+void top() const { return data[top_]; }
+bool empty() const { return top_ == 0; }
+bool full() const { return top_ == N; }
+size_t size() const { return top_ - 1; }
+
 private:
+
+size_t top_;
+T data[N];
 
 };
 
