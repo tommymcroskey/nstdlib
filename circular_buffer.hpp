@@ -3,14 +3,15 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <memory>
 
 template <typename T, size_t N>
 class CircularBuffer {
 
 public:
 
-CircularBuffer(size_t capacity) :
-	capacity_(capacity),
+CircularBuffer() :
+	capacity_(N),
 	size_(0),
 	front_(0),
 	back_(0)
@@ -38,8 +39,8 @@ T dequeue() {
 
 size_t capacity() const { return capacity_; }
 size_t size() const { return size_; }
-bool empty() const { return size_ == capacity_; }
-bool full() const { return size_ == 0; }
+bool empty() const { return size_ == 0; }
+bool full() const { return size_ == capacity_; }
 
 private:
 
@@ -49,5 +50,7 @@ size_t front_;
 size_t back_;
 
 T data[N];
+
+};
 
 #endif // CIRCULAR_BUFFER_HPP 
