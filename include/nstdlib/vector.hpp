@@ -11,8 +11,18 @@ class Vector {
 
 public:
 
-	Vector();
-	Vector(size_t capacity);
+	Vector()
+		: data_(static_cast<T*>(::operator new(DEFAULT_CAPACITY * sizeof(T))))
+		, capacity_(DEFAULT_CAPACITY)
+		, size_(0)
+	{}
+
+	Vector(size_t capacity)
+		: data_(static_cast<T*>(::operator new(capacity * sizeof(T))))
+		, capacity_(capacity)
+		, size_(0)
+	{}
+
 	Vector(size_t capacity, const T& fill);
 	Vector(const Vector& o); // copy constructor
 	Vector(Vector&& o) noexcept; // move constructor
@@ -26,12 +36,18 @@ public:
 	T& front() const;
 	T& back() const;
 	size_t size();
+	void push_back();
 
 private:
 
-	unique_ptr<T> data;
-	size_t capacity;
-	size_t size;
+	unique_ptr<T> data_;
+	size_t capacity_;
+	size_t size_;
+
+inline namespace _version_0_1_0 {
+
+	void _expand_exponential();
+};
 
 };
 
