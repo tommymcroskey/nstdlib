@@ -25,14 +25,30 @@ public:
 	{}
 
 	Vector(size_t capacity, const T& fill);
-	Vector(const Vector& o); // copy constructor
-	Vector(Vector&& o) noexcept; // move constructor
+	Vector(const Vector& o);
+	Vector(Vector&& o) noexcept;
 
 	~Vector();
 
-	Vector& operator=(const Vector& o); // copy assignment operator
-	Vector& operator=(Vector&& o); // move assignment operator
-	T& operator[](size_t idx);
+	Vector& operator=(const Vector& o);
+	Vector& operator=(Vector&& o);
+
+	/**
+	* @brief operator[] override for const vectors
+	*/
+	const T& operator[](size_t idx) const {
+		if (_out_of_bounds(idx)) {
+			throw std::out_of_range("index not in range");
+		}
+		return data_.get()[idx];
+	}
+
+	/**
+	* @brief operator[] override for non const vectors
+	*/
+	T& operator[](size_t idx) {
+		return const_cast<T&>(static_cast<const Vector&>(*this)[idx]);
+	}
 
 	T& front() const;
 	T& back() const;
@@ -47,6 +63,7 @@ private:
 	size_t capacity_;
 	size_t size_;
 
+	bool _out_of_bounds(size_t idx) const { return idx >= size_; }
 	void _expand_exponential();
 };
 
