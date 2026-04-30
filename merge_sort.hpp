@@ -48,7 +48,7 @@ void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
 }
 
 template <LtLteComparable Lt>
-void merge_sort_rec_lt(vector<Lt>& arr, size_t left, size_t right) {
+void merge_sort_rec_lt(std::vector<Lt>& arr, size_t left, size_t right) {
 
 	if (left >= right) {
 		return;
@@ -61,7 +61,7 @@ void merge_sort_rec_lt(vector<Lt>& arr, size_t left, size_t right) {
 }
 
 template <LtLteComparable Lt>
-void merge_sort_in_place_lt(vector<Lt>& arr) {
+void merge_sort_in_place_lt(std::vector<Lt>& arr) {
 	size_t n = arr.size();
 	if (n == 0) {
 		throw std::logic_error("cannot sort empty vector");

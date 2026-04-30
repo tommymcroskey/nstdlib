@@ -7,7 +7,7 @@
 
 void test_lt_sort_trivial() {
 	std::vector<int> v = {5, 4, 2, 3, 7};
-	merge_sort_lt(v);
+	nstd::merge_sort_in_place_lt(v);
 	int t = -1;
 	for (int n : v) {
 		assert(t < n);
@@ -21,7 +21,7 @@ void test_lt_sort_has_freqs() {
 	for (int n : v) {
 		freqs[n]++;
 	}
-	merge_sort_lt(v);
+	nstd::merge_sort_in_place_lt(v);
 	for (int n : v) {
 		freqs[n]--;
 	}
