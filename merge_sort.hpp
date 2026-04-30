@@ -7,33 +7,11 @@
 
 namespace nstd {
 
-template <typename A>
-concept LtLteComparable = requires(A a, A b) {
+template <typename T>
+concept LtLteComparable = requires(T a, T b) {
 	{a < b} -> std::convertible_to<bool>;
 	{a <= b} -> std::convertible_to<bool>;
 };
-
-template <LtLteComparable Lt>
-void merge_sort_in_place_lt(vector<Lt>& arr) {
-	size_t n = arr.size();
-	if (n == 0) {
-		throw std::logic_error("cannot sort empty vector");
-	}
-	merge_sort_rec_lt(arr, 0, n - 1);
-}
-
-template <LtLteComparable Lt>
-void merge_sort_rec_lt(vector<Lt>& arr, size_t left, size_t right) {
-
-	if (left >= right) {
-		return;
-	}
-
-	size_t mid = left + ((right  - left) / 2);
-	merge_sort_rec_lt(arr, left, mid);
-	merge_sort_rec_lt(arr, mid + 1, right);
-	merge_lt(arr, left, mid, right);
-}
 
 template <LtLteComparable Lt>
 void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
@@ -46,10 +24,10 @@ void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
 	v2.reserve(n2);
 
 	for (size_t i = 0; i < n1; i++) {
-		v1.push_back(arr[i + left];
+		v1.push_back(arr[i + left]);
 	}
 	for (size_t j = 0; j < n2; j++) {
-		v2.push_back(arr[j + mid + 1];
+		v2.push_back(arr[j + mid + 1]);
 	}
 
 	size_t i = 0, j = 0, wptr = left;
@@ -67,6 +45,28 @@ void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
 	while (j < n2) {
 		arr[wptr++] = v2[j++];
 	}
+}
+
+template <LtLteComparable Lt>
+void merge_sort_rec_lt(vector<Lt>& arr, size_t left, size_t right) {
+
+	if (left >= right) {
+		return;
+	}
+
+	size_t mid = left + ((right  - left) / 2);
+	merge_sort_rec_lt(arr, left, mid);
+	merge_sort_rec_lt(arr, mid + 1, right);
+	merge_lt(arr, left, mid, right);
+}
+
+template <LtLteComparable Lt>
+void merge_sort_in_place_lt(vector<Lt>& arr) {
+	size_t n = arr.size();
+	if (n == 0) {
+		throw std::logic_error("cannot sort empty vector");
+	}
+	merge_sort_rec_lt(arr, 0, n - 1);
 }
 
 };
