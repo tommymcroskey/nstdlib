@@ -52,20 +52,27 @@ public:
 		return const_cast<T&>(static_cast<const Vector&>(*this)[idx]);
 	}
 
+	/**
+	* @brief returns the front of the vector
+	*/
 	T& front() const {
 		if (_empty()) {
 			throw std::out_of_range("cannot get front of empty vector");
 		}
 		return *this[0];
 	}
+
+	/**
+	* @brief returns the back of the vector
+	*/
 	T& back() const {
 		if (_empty()) {
 			throw std::out_of_range("cannot get back of empty vector");
 		}
 		return *this[size_ - 1]
 	}
-	size_t size();
-	void push_back();
+	size_t size() const { return size_; }
+	void push_back(const T& e);
 
 private:
 
