@@ -5,6 +5,7 @@
 #include <memory>
 
 namespace nstd {
+inline namespace _vector_version_0_1_0 {
 
 template <typename T>
 class Vector {
@@ -12,7 +13,7 @@ class Vector {
 public:
 
 	Vector()
-		: data_(static_cast<T*>(::operator new(DEFAULT_CAPACITY * sizeof(T))))
+		: data_(static_cast<T*>(::operator new(default_capacity * sizeof(T))))
 		, capacity_(DEFAULT_CAPACITY)
 		, size_(0)
 	{}
@@ -40,11 +41,11 @@ public:
 
 private:
 
+	static constexpr default_capacity = 8;
+
 	unique_ptr<T> data_;
 	size_t capacity_;
 	size_t size_;
-
-inline namespace _version_0_1_0 {
 
 	void _expand_exponential();
 };
