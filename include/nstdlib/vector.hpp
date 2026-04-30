@@ -35,6 +35,7 @@ public:
 
 	/**
 	* @brief operator[] override for const vectors
+	* @throws out_of_range on access index > size
 	*/
 	const T& operator[](size_t idx) const {
 		if (_out_of_bounds(idx)) {
@@ -45,13 +46,24 @@ public:
 
 	/**
 	* @brief operator[] override for non const vectors
+	* @throws out_of_range on access index > size
 	*/
 	T& operator[](size_t idx) {
 		return const_cast<T&>(static_cast<const Vector&>(*this)[idx]);
 	}
 
-	T& front() const;
-	T& back() const;
+	T& front() const {
+		if (_empty()) {
+			throw std::out_of_range("cannot get front of empty vector");
+		}
+		return *this[0];
+	}
+	T& back() const {
+		if (_empty()) {
+			throw std::out_of_range("cannot get back of empty vector");
+		}
+		return *this[size_ - 1]
+	}
 	size_t size();
 	void push_back();
 
@@ -63,6 +75,7 @@ private:
 	size_t capacity_;
 	size_t size_;
 
+	bool _empty() const { return size_ == 0; }
 	bool _out_of_bounds(size_t idx) const { return idx >= size_; }
 	void _expand_exponential();
 };
