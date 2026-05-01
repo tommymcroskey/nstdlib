@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <memory>
 
+namespace nstd {
+inline namespace _circular_buffer_0_1_0 {
+
 template <typename T, size_t N>
 class CircularBuffer {
 
@@ -50,6 +53,10 @@ size_t front_;
 size_t back_;
 
 T data[N];
+
+};
+
+};
 
 };
 
