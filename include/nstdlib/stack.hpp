@@ -4,6 +4,9 @@
 #include <cstddef>
 #include <stdexcept>
 
+namespace nstd {
+inline namespace _stack_0_1_0 {
+
 template <typename T, size_t N>
 class Stack {
 
@@ -41,6 +44,10 @@ private:
 
 size_t top_;
 T data[N];
+
+};
+
+};
 
 };
 

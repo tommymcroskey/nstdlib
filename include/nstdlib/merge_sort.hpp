@@ -6,6 +6,7 @@
 #include <vector>
 
 namespace nstd {
+inline namespace _merge_sort_0_1_0 {
 
 template <typename T>
 concept LtLteComparable = requires(T a, T b) {
@@ -68,6 +69,10 @@ void merge_sort_in_place_lt(std::vector<Lt>& arr) {
 	}
 	merge_sort_rec_lt(arr, 0, n - 1);
 }
+
+};
+
+};
 
 };
 
