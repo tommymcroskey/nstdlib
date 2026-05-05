@@ -3,25 +3,25 @@
 #include <cassert>
 
 void test_constructor_sanity() {
-	nstd::Vector<int> v;
+	gdn::Vector<int> v;
 }
 
 void test_push_back_trivial() {
-	nstd::Vector<int> v;
+	gdn::Vector<int> v;
 	v.push_back(4);
 	assert(v[0] == 4);
 	assert(v.size() == 1);
 }
 
 void test_trivial_back() {
-	nstd::Vector<int> v;
+	gdn::Vector<int> v;
 	v.push_back(5);
 	assert(v.back() == 5);
 	assert(v.size() == 1);
 }
 
 void test_trivial_front() {
-	nstd::Vector<int> v;
+	gdn::Vector<int> v;
 	v.push_back(4);
 	v.push_back(10);
 	assert(v.front() == 4);
@@ -29,7 +29,7 @@ void test_trivial_front() {
 }
 
 void test_trivial_bracket_reassignment() {
-	nstd::Vector<int> v;
+	gdn::Vector<int> v;
 	v.push_back(7);
 	v.push_back(5);
 	v.push_back(167);
@@ -45,7 +45,7 @@ void test_ud_default_constructor() {
 		int data_;
 		MyType() = default;
 	};
-	nstd::Vector<MyType> v;
+	gdn::Vector<MyType> v;
 }
 
 void run_tests() {
