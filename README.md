@@ -11,7 +11,14 @@ Hello, and welcome to the Garden! The goal of this repository is to create a sta
 - C++20 or later
 - Ninja
 
-``
+`cmake -B build -G Ninja`
+`cmake --build build`
+
+#### To run tests
+
+`ctest --test-dir build --output-on-failure`
+
+*can use default generator but Ninja used above to match mine*
 
 ## Implemented
 

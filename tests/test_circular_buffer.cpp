@@ -1,4 +1,4 @@
-#include "circular_buffer.hpp"
+#include "garden/circular_buffer.hpp"
 
 #include <cassert>
 #include <cstddef>
