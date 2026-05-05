@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace nstd {
+namespace gdn {
 inline namespace _merge_sort_0_1_0 {
 
 template <typename T>

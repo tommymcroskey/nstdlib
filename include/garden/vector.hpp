@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <memory>
 
-namespace nstd {
+namespace gdn {
 inline namespace _vector_version_0_1_0 {
 
 template <typename T>

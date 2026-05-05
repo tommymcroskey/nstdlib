@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <memory>
 
-namespace nstd {
+namespace gdn {
 inline namespace _circular_buffer_0_1_0 {
 
 template <typename T, size_t N>

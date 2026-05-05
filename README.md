@@ -1,11 +1,50 @@
-# nstdlib
+# Garden
 
-## Stack
-### Description
+## Purpose
 
-This implementation aims to provide a contiguous, stack allocated data structure implementing the FIFO data access pattern. The size of this data structure is passed as a template parameter in order to accomodate this. A future addition to this class could take inspiration from the shortAlloc allocator written by Howard Hinnit, which provides a stack allocation unless the container exceeds some capacity, where it is then mapped into heap memory instead.
+Hello, and welcome to the Garden! The goal of this repository is to create a standalone library of containers and algorithms, and to find the bugs common (or not so common) to C++ programming. Each container and algorithm will eventually have its own lock-free and blocking implementations, and each should be profiled against one another. I also will write a short piece about what I learned from each once this process is complete. I hope you enjoy poking around!
 
-## Circular Buffer
-### Description
+## How To Build
 
-The circular buffer features a stack allocated contiguous sequence of elements. It takes a template parameter n to determine capacity at compile time. This structure will be most useful to handle large amounts of reads and writes. The nature of the structure is that reads and writes take place in separate locations, meaning that with a double lock approach higher concurrency can be achieved than structures where read and write locations overlap or are ambiguous. The locking mechanism and general thread safety of this data structure is not yet implemented but should be, as it fits concurrent problems well and should prove useful in the future.
+### Requires
+
+- C++20 or later
+- Ninja
+
+``
+
+## Implemented
+
+### Data Structures
+
+#### Vector
+- [X] Base
+- [ ] Lock-Free
+- [ ] Blocking
+- [ ] Profiling
+
+#### Stack
+- [X] Base
+- [ ] Lock-Free
+- [ ] Blocking
+- [ ] Profiling
+
+#### CircularBuffer (Queue)
+- [X] Base
+- [ ] Lock-Free
+- [ ] Blocking
+- [ ] Profiling
+
+### Algorithms
+
+#### MergeSort
+- [X] Base
+- [ ] Lock-Free
+- [ ] Blocking
+- [ ] Profiling
+
+#### Find
+- [ ] Base
+- [ ] Lock-Free
+- [ ] Blocking
+- [ ] Profiling
