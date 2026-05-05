@@ -12,6 +12,7 @@ Hello, and welcome to the Garden! The goal of this repository is to create a sta
 - Ninja
 
 `cmake -B build -G Ninja`
+
 `cmake --build build`
 
 #### To run tests
