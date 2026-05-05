@@ -1,30 +1,21 @@
-#include "stack.hpp"
+#include "garden/stack.hpp"
 
 #include <cassert>
 #include <vector>
 
 void test_constructor_trivial() {
-	/*
-	* Test default constructor
-	*/
-	Stack<int, 10> st;
+	gdn::Stack<int, 10> st;
 }
 
 void test_push_trivial() {
-	/*
-	* Push trivial valuesk
-	*/
-	Stack<int, 10> st;
+	gdn::Stack<int, 10> st;
 	int value = 10;
 	st.push(value);
 	assert(st.size() == 1);
 }
 
 void test_push_to_limit() {
-	/*
-	* Push values N + 1 times
-	*/
-	Stack<int, 10> st;
+	gdn::Stack<int, 10> st;
 	try {
 		for (int i = 0; i < 11; i++) {
 			st.push(i);
@@ -34,10 +25,7 @@ void test_push_to_limit() {
 }
 
 void test_pop_empty() {
-	/*
-	* Pop from empty stack
-	*/
-	Stack<bool, 5> st;
+	gdn::Stack<bool, 5> st;
 	try {
 		st.pop();
 		assert(false);
@@ -45,10 +33,7 @@ void test_pop_empty() {
 }
 
 void test_pop_trivial() {
-	/*
-	* Test standard pop behavior
-	*/
-	Stack<float, 3> st;
+	gdn::Stack<float, 3> st;
 	float value = 1.0f;
 	st.push(value);
 	st.pop();
@@ -56,10 +41,7 @@ void test_pop_trivial() {
 }
 
 void test_top_empty() {
-	/*
-	* Test top from empty
-	*/
-	Stack<int, 200> st;
+	gdn::Stack<int, 200> st;
 	try {
 		st.top();
 		assert(false);

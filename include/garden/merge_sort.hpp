@@ -74,6 +74,4 @@ void merge_sort_in_place_lt(std::vector<Lt>& arr) {
 
 };
 
-};
-
 #endif // MERGE_SORT_HPP
