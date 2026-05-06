@@ -40,12 +40,32 @@ void test_trivial_bracket_reassignment() {
 	}
 }
 
+class MyType {
+public:
+	int data_;
+	MyType(int data) : data_(data) {}
+	bool operator==(const MyType& mt) const { return data_ == mt.data_; }
+};
+
 void test_ud_default_constructor() {
-	class MyType {
-		int data_;
-		MyType() = default;
-	};
 	gdn::Vector<MyType> v;
+}
+
+void test_ud_capacity_constructor() {
+	gdn::Vector<MyType> v(10);
+}
+
+void test_ud_fill_constructor() {
+	MyType mt(26);
+	gdn::Vector<MyType> v(10, mt);
+}
+
+void test_ud_push_back() {
+	gdn::Vector<MyType> v;
+	MyType mt(26);
+	v.push_back(mt);
+	assert(v.front() == mt);
+	assert(v.size() == 1);
 }
 
 void run_tests() {
