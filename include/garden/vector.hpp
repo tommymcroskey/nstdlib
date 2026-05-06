@@ -1,12 +1,17 @@
+/**
+* @file garden/vector
+* @brief This file is a template vector implementation
+*/
+
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include <cstdlib>
 #include <cstddef>
+#include <cstdlib>
 #include <memory>
 
 namespace gdn {
-inline namespace _vector_version_0_1_0 {
+inline namespace _vector_0_1_0 {
 
 template <typename T>
 class Vector {
@@ -27,21 +32,9 @@ public:
 
 	Vector(size_t capacity, const T& fill) : Vector(capacity) {
 		for (; size_ < capacity_; size_++) {
-			data_[size_] = fill;
+			new (data_ + size_) T(fill);
 		}
 	}
-		
-	Vector(const Vector& o) : Vector(o.capacity_) {
-		for (; size_ < capacity_; size_++) {
-			data_[size_] = o[size_];
-		}
-	}
-
-	Vector(Vector&& o) noexcept
-		: data_(o.data_)
-		, capacity_(o.capacity_)
-		, size_(o.size_)
-	{ o.data_ = nullptr; }
 
 	~Vector() {
 		for (size_t i = 0; i < size_; i++) {
@@ -50,63 +43,94 @@ public:
 		::operator delete(data_);
 	}
 
-	Vector& operator=(const Vector& o);
-		
-	Vector& operator=(Vector&& o);
+	Vector(const Vector& o): Vector(o.capacity_) {
+		for (; size_ < o.size_; size_++) {
+			new (data_ + size_) T(o.data_[size_]);
+		}
+	}
 
-	/**
-	* @brief operator[] override for const vectors
-	* @throws out_of_range on access index > size
-	*/
+	Vector(Vector&& o)
+		: data_(std::move(o.data_))
+		, capacity_(o.capacity_)
+		, size_(o.size_)
+	{
+		o.data_ = nullptr;
+		o.capacity_ = 0;
+		o.size_ = 0;
+	}
+
+	Vector& operator=(const Vector& o) {
+		if (this == &o) {
+			return *this;
+		}
+		Vector tmp(o);
+		std::swap(data_, tmp.data_);
+		std::swap(capacity_, tmp.capacity_);
+		std::swap(size_, tmp.size_);
+		return *this;
+	}
+
+	Vector& operator=(Vector&& o) {
+		if (this == &o) {
+			return *this;
+		}
+		for (size_t i = 0; i < size_; i++) {
+			data_[i].~T();
+		}
+		::operator delete(data_);
+		data_ = std::move(o.data_);
+		capacity_ = o.capacity_;
+		size_ = o.size_;
+		o.data_ = nullptr;
+		o.capacity_ = 0;
+		o.size_ = 0;
+		return *this;
+	}
+	
 	const T& operator[](size_t idx) const {
-		if (_out_of_bounds(idx)) {
-			throw std::out_of_range("index not in range");
+		if (idx >= size_) {
+			throw std::out_of_range("cannot access index greater than vector size");
 		}
 		return data_[idx];
 	}
 
-	/**
-	* @brief operator[] override for non const vectors
-	* @throws out_of_range on access index > size
-	*/
 	T& operator[](size_t idx) {
 		return const_cast<T&>(static_cast<const Vector&>(*this)[idx]);
 	}
 
-	/**
-	* @brief returns the front of the vector
-	*/
 	const T& front() const {
 		if (_empty()) {
 			throw std::out_of_range("cannot get front of empty vector");
 		}
-		return (*this)[0];
+		return data_[0];
 	}
 
-	T& front() {
-		return const_cast<T&>(static_cast<const Vector&>((*this)).front());
-	}
-
-	/**
-	* @brief returns the back of the vector
-	*/
 	const T& back() const {
 		if (_empty()) {
 			throw std::out_of_range("cannot get back of empty vector");
 		}
-		return (*this)[size_ - 1];
+		return data_[size_ - 1];
 	}
-		
+
+	T& front() {
+		return const_cast<T&>(static_cast<const Vector&>(*this).front());
+	}
+
 	T& back() {
 		return const_cast<T&>(static_cast<const Vector&>(*this).back());
 	}
 
-	size_t size() const noexcept { return size_; }
+	size_t size() const { return size_; }
+
+	/**
+	* @brief add T element to end of container
+	*/
 	void push_back(const T& e) {
 		if (_full()) {
 			_expand();
 		}
-		data_[size_++] = e;
+		new (data_ + size_) T(e);
+		size_++;
 	}
 
 private:
@@ -119,7 +143,7 @@ private:
 
 	bool _empty() const { return size_ == 0; }
 	bool _full() const { return size_ == capacity_; }
-	bool _out_of_bounds(size_t idx) const { return idx >= size_; }
+
 	void _expand() {
 		if (capacity_ * 2 < capacity_) {
 			throw std::bad_alloc();
@@ -131,29 +155,31 @@ private:
 			_ud_expand_exponential();
 		}
 	}
+
 	/**
-	* @brief user defined expand 2^n capacity for n usages
+	* @brief expand vector of user-defined type, no optimization
 	*/
 	void _ud_expand_exponential() {
 		T* ptr = static_cast<T*>(::operator new(capacity_ * sizeof(T)));
 		for (size_t i = 0; i < size_; i++) {
-			ptr[i] = std::move(data_[i]);
+			new (ptr + i) T(std::move(data_[i]));
 			data_[i].~T();
 		}
 		::operator delete(data_);
 		data_ = ptr;
 	}
+
 	/**
-	* @brief trivially copyable expand 2^n capacity for n usage, using realloc optimization
+	* @brief expand vector of trivially copyable type, using realloc optimization
 	*/
 	void _tc_expand_exponential() {
-		T* ptr = static_cast<T*>(realloc((void*)data_, capacity_ * sizeof(T)));
+		T* ptr = static_cast<T*>(realloc(data_, capacity_ * sizeof(T)));
 		if (ptr == nullptr) {
 			throw std::bad_alloc();
 		}
 		data_ = ptr;
 	}
-		
+
 };
 
 };
