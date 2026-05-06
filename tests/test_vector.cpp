@@ -75,6 +75,9 @@ void run_tests() {
 	test_trivial_front();
 	test_trivial_bracket_reassignment();
 	test_ud_default_constructor();
+	test_ud_capacity_constructor();
+	test_ud_fill_constructor();
+	test_ud_push_back();
 }
 
 int main() {
