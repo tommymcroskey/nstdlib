@@ -32,7 +32,7 @@ public:
 
 	Vector(size_t capacity, const T& fill) : Vector(capacity) {
 		for (; size_ < capacity_; size_++) {
-			data_[size_] = fill;
+			new (data_ + size_) T(fill);
 		}
 	}
 
@@ -45,7 +45,7 @@ public:
 
 	Vector(const Vector& o): Vector(o.capacity_) {
 		for (; size_ < o.size_; size_++) {
-			data_[size_] = o.data_[size_];
+			new (data_ + size_) T(o.data_[size_]);
 		}
 	}
 
@@ -129,7 +129,8 @@ public:
 		if (_full()) {
 			_expand();
 		}
-		data_[size_++] = e;
+		new (data_ + size_) T(e);
+		size_++;
 	}
 
 private:
@@ -161,7 +162,7 @@ private:
 	void _ud_expand_exponential() {
 		T* ptr = static_cast<T*>(::operator new(capacity_ * sizeof(T)));
 		for (size_t i = 0; i < size_; i++) {
-			ptr[i] = std::move(data_[i]);
+			new (ptr + i) T(std::move(data_[i]));
 			data_[i].~T();
 		}
 		::operator delete(data_);
