@@ -30,9 +30,28 @@ void test_lt_sort_has_freqs() {
 	}
 }
 
+void sort_empty_result_unchanged() {
+	std::vector<int> v(0);
+	std::vector<int> cpy(v);
+	gdn::merge_sort_in_place_lt(v);
+	assert(v == cpy);
+	assert(v.size() == 0);
+}
+
+void sort_one_element_unchanged() {
+	std::vector<int> v = {1};
+	std::vector<int> cpy(v);
+	gdn::merge_sort_in_place_lt(v);
+	assert(v == cpy);
+	assert(v.size() == 1);
+	assert(v[0] == 1);
+}
+
 void run_tests() {
 	test_lt_sort_trivial();
 	test_lt_sort_has_freqs();
+	sort_empty_result_unchanged();
+	sort_one_element_unchanged();
 }
 
 int main() {
