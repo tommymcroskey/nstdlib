@@ -9,12 +9,11 @@ namespace gdn {
 inline namespace _merge_sort_0_1_0 {
 
 template <typename T>
-concept LtLteComparable = requires(T a, T b) {
+concept LtComparable = requires(T a, T b) {
 	{a < b} -> std::convertible_to<bool>;
-	{a <= b} -> std::convertible_to<bool>;
 };
 
-template <LtLteComparable Lt>
+template <LtComparable Lt>
 void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
 
 	size_t n1 = mid - left + 1;
@@ -48,7 +47,7 @@ void merge_lt(std::vector<Lt>& arr, size_t left, size_t mid, size_t right) {
 	}
 }
 
-template <LtLteComparable Lt>
+template <LtComparable Lt>
 void merge_sort_rec_lt(std::vector<Lt>& arr, size_t left, size_t right) {
 
 	if (left >= right) {
@@ -61,11 +60,11 @@ void merge_sort_rec_lt(std::vector<Lt>& arr, size_t left, size_t right) {
 	merge_lt(arr, left, mid, right);
 }
 
-template <LtLteComparable Lt>
+template <LtComparable Lt>
 void merge_sort_in_place_lt(std::vector<Lt>& arr) {
 	size_t n = arr.size();
-	if (n == 0) {
-		throw std::logic_error("cannot sort empty vector");
+	if (n < 2) {
+		return;
 	}
 	merge_sort_rec_lt(arr, 0, n - 1);
 }
